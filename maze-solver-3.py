@@ -10,7 +10,7 @@ maze = [
     [1,2,0,0,0,0,0,0,1],
     [1,0,0,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,1],
+    [1,0,0,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,3,1],
     [1,1,1,1,1,1,1,1,1]
 ]
@@ -44,7 +44,7 @@ wall_check = 6
 end_loop = 0
 corner_check = 0
 
-dead_end_new_path = 0
+dead_end_new_path = 0 #alts between 1 and 0
 alt_path = []
 
 for row in maze:
@@ -56,6 +56,7 @@ for row in maze:
             col_count = alt_path_col_coord
             pos = maze[row_count][col_count]
             dead_end_new_path = 0
+            del alt_path[dead_end_new_path]
 
         else:
             pos = maze[row_count][col_count]
@@ -79,7 +80,7 @@ for row in maze:
             #below pos path check
             below_row_count = row_count + 1
             below_col_count = col_count
-            if maze[below_row_count][below_col_count] == 0 or maze[above_row_count][above_col_count] == 0: #add 5 later mayb
+            if maze[below_row_count][below_col_count] == 0 or maze[below_row_count][below_col_count] == 0: #add 5 later mayb
                 possible_paths += 1
 
             #right pos path check
@@ -97,11 +98,11 @@ for row in maze:
             #dead end check
             if maze[right_row_count][right_col_count] == 1 and maze[above_row_count][above_col_count] == 1 and maze[below_row_count][below_col_count] == 1:
                 print("dead end")
-                coords = alt_path[dead_end_new_path]
+                coords = alt_path[0]
                 alt_path_row_coord = coords[0]
                 alt_path_col_coord = coords[1]
 
-                dead_end_new_path += 1
+                dead_end_new_path = 1
                 if dead_end_new_path > len(alt_path):
                     dead_end_new_path = 0
                 #also once pos moved to new coords REMOVE it from alt_path
@@ -127,12 +128,11 @@ for row in maze:
         break
 
 print(alt_path)
-display_count = 0
 for x in maze:
     print(x)
 
 
-
+### CAN ONLY DO ONE DEAD END, DEAL WITH THIS IN THE ARRAY REMOVAL THINGY AND DEAD END VARIABLE!!!
 
 #so this maze solver just goes horizontally until it hits a wall then just moves down one row/level and back one space/column
 #BUT it can NOT look behind walls, so a checkpoint behind a wall will never be found, still an issue
