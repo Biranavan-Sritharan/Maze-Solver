@@ -1,5 +1,5 @@
 # Maze-Solver
-Creating a programs that is able to traverse a maze from start point and reach an end point. New features are being added to my maze-solvers to get past certain situations.
+Creating a programs that is able to traverse a maze from a start point and reach an end point. New features are being added to my maze-solvers to get past certain situations.
 
 The maze can also be changed really easily if needed to by changing numbers in the array:
 ## KEY:
