@@ -7,11 +7,11 @@
 
 maze = [
     [1,1,1,1,1,1,1,1,1],
-    [1,2,0,0,0,0,0,0,1],
-    [1,0,0,1,1,1,1,1,1],
+    [1,2,0,0,0,0,1,0,1],
+    [1,0,0,0,0,0,1,0,1],
+    [1,0,0,0,0,0,1,0,1],
+    [1,0,0,0,0,0,1,0,1],
     [1,0,0,0,0,0,0,0,1],
-    [1,0,0,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,3,1],
     [1,1,1,1,1,1,1,1,1]
 ]
 
@@ -71,6 +71,10 @@ for row in maze:
 
             possible_paths = 0
 
+            #left pos path check, for now just variables declared
+            left_row_count = row_count
+            left_col_count = col_count - 1
+
             #above pos path check
             above_row_count = row_count - 1
             above_col_count = col_count
@@ -95,7 +99,7 @@ for row in maze:
             if possible_paths >= 2 and maze[below_row_count][below_col_count] == 0 or maze[above_row_count][above_col_count] == 0: #add 5 later mayb
                 alt_path.append((below_row_count,below_col_count))
 
-            #dead end check
+            #dead end check (horizontal dead end)
             if maze[right_row_count][right_col_count] == 1 and maze[above_row_count][above_col_count] == 1 and maze[below_row_count][below_col_count] == 1:
                 print("dead end")
                 coords = alt_path[0]
@@ -107,6 +111,17 @@ for row in maze:
                     dead_end_new_path = 0
                 #also once pos moved to new coords REMOVE it from alt_path
                 #move pos to one of the other coords from alt_path array
+
+            #corner check, bottom right corner
+            elif maze[right_row_count][right_col_count] == 1 and maze[below_row_count][below_col_count] == 1:
+                print("bottom right corner")
+                if maze[above_row_count][above_col_count] == 0:
+                    row_count -= 1
+
+            #vertical column from bottom right corner scenario
+            elif (maze[right_row_count][right_col_count] == 1 or maze[right_row_count][right_col_count] == 6) and (maze[left_row_count][left_col_count] == 1 or maze[left_row_count][left_col_count] == 6):
+                row_count -= 1
+
             else:
                 col_count += 1
 
@@ -132,7 +147,6 @@ for x in maze:
     print(x)
 
 
-### CAN ONLY DO ONE DEAD END, DEAL WITH THIS IN THE ARRAY REMOVAL THINGY AND DEAD END VARIABLE!!! - FIXED!!!
 
 #so this maze solver just goes horizontally until it hits a wall then just moves down one row/level and back one space/column
 #BUT it can NOT look behind walls, so a checkpoint behind a wall will never be found, still an issue
