@@ -11,7 +11,7 @@ maze = [
     [1,0,0,0,0,0,1,0,1],
     [1,0,0,0,0,0,1,0,1],
     [1,0,0,0,0,0,1,0,1],
-    [1,0,0,0,0,0,0,0,1],
+    [1,3,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1]
 ]
 
@@ -99,6 +99,7 @@ for row in maze:
             if possible_paths >= 2 and maze[below_row_count][below_col_count] == 0 or maze[above_row_count][above_col_count] == 0: #add 5 later mayb
                 alt_path.append((below_row_count,below_col_count))
 
+            ### situations/scenarios event handling ###
             #dead end check (horizontal dead end)
             if maze[right_row_count][right_col_count] == 1 and maze[above_row_count][above_col_count] == 1 and maze[below_row_count][below_col_count] == 1:
                 print("dead end")
@@ -111,6 +112,17 @@ for row in maze:
                     dead_end_new_path = 0
                 #also once pos moved to new coords REMOVE it from alt_path
                 #move pos to one of the other coords from alt_path array
+
+            #vertical dead end check
+            elif (maze[above_row_count][above_col_count] == 1 or maze[above_row_count][above_col_count] == 6) and (maze[right_row_count][right_col_count] == 1 or maze[right_row_count][right_col_count] == 6) and (maze[left_row_count][left_col_count] == 1 or maze[left_row_count][left_col_count] == 6):
+                print("vertical dead end")
+                coords = alt_path[0]
+                alt_path_row_coord = coords[0]
+                alt_path_col_coord = coords[1]
+
+                dead_end_new_path = 1
+                if dead_end_new_path > len(alt_path):
+                    dead_end_new_path = 0
 
             #corner check, bottom right corner
             elif maze[right_row_count][right_col_count] == 1 and maze[below_row_count][below_col_count] == 1:
@@ -146,7 +158,7 @@ print(alt_path)
 for x in maze:
     print(x)
 
-
+#OK SO NOW IF IT ENCOUNTERS ANOTHER 5 IT STARTS READING IT FROM TEH ALT APTH LIST AND JUST FILLS OUT THE MAZE!!!
 
 #so this maze solver just goes horizontally until it hits a wall then just moves down one row/level and back one space/column
 #BUT it can NOT look behind walls, so a checkpoint behind a wall will never be found, still an issue
